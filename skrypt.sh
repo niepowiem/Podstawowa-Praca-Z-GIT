@@ -30,6 +30,17 @@ if [ "$1" == "--logs" ] || [ "$1" == "-l" ]; then
     exit 0
 fi
 
+# Obsługa flagi --error lub -e z opcjonalnym argumentem liczby
+if [ "$1" == "--error" ] || [ "$1" == "-e" ]; then
+    liczba_bledow=${2:-100} # Domyślnie 100, jeśli $2 jest puste
+    for i in $(seq 1 $liczba_bledow); do
+        mkdir -p error${i} # Utwórz katalog, jeśli nie istnieje (-p)
+        echo "Plik błędu numer: ${i}" > error${i}/error${i}.txt
+    done
+    exit 0
+fi
+
+
 # Obsługa flagi --help lub -h
 if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     echo "Dostępne opcje:"
@@ -37,6 +48,8 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     echo "  --date (-d)     - wyświetla dzisiejszą datę"
     echo "  --logs (-l)     - tworzy 100 plików logx.txt"
     echo "  --logs (-l) <n> - tworzy n plików logx.txt"
+    echo "  --error (-e)    - tworzy 100 plików błędu w katalogach errorx"
+    echo "  --error (-e) <n>- tworzy n plików błędu w katalogach errorx"
     echo "  --help (-h)     - wyświetla pomoc"
     exit 0
 fi
